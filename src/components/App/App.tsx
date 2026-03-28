@@ -12,7 +12,7 @@ import Modal from '../Modal/Modal'
 
 export default function App() {
 	const [photos, setPhotos] = useState<Photo[]>([])
-	const [photo, setPhoto] = useState<Photo | null>(null)
+	const [activeIdx, setActiveIdx] = useState<number | null>(null)
 	const [isLoading, setIsLoading] = useState(false)
 	const [isError, setIsError] = useState(false)
 
@@ -20,6 +20,7 @@ export default function App() {
 		try {
 			setIsLoading(true)
 			setIsError(false)
+			setActiveIdx(null)
 
 			const fetchPhotos = await getPhotos(query)
 
@@ -41,7 +42,9 @@ export default function App() {
 			setIsLoading(false)
 		}
 	}
-	console.log(photo)
+
+	const activePhoto = activeIdx !== null ? photos[activeIdx] : null
+
 	return (
 		<>
 			<Section>
@@ -49,9 +52,7 @@ export default function App() {
 					<Form onSubmit={handleSubmit} />
 					{isLoading && <Loader />}
 					{isError && <Text>Whoops, something went wrong! Please try again!</Text>}
-					{photos.length > 0 && (
-						<PhotosGallery photos={photos} onSelect={(photo) => setPhoto(photo)} />
-					)}
+					{photos.length > 0 && <PhotosGallery photos={photos} onSelect={setActiveIdx} />}
 				</Container>
 			</Section>
 			<div>
@@ -74,15 +75,15 @@ export default function App() {
 					}}
 				/>
 			</div>
-			{photo && (
-				<Modal onClose={() => setPhoto(null)}>
+			{activePhoto && (
+				<Modal onClose={() => setActiveIdx(null)}>
 					<div
 						style={{
-							backgroundColor: photo.avg_color,
-							borderColor: photo.avg_color,
+							backgroundColor: activePhoto.avg_color,
+							borderColor: activePhoto.avg_color,
 						}}
 					>
-						<img src={photo.src.large} alt={photo.alt} />
+						<img src={activePhoto.src.large} alt={activePhoto.alt} />
 					</div>
 				</Modal>
 			)}

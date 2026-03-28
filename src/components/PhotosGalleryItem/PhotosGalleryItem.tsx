@@ -5,7 +5,7 @@ import styles from './PhotosGalleryItem.module.css'
 
 interface PhotosGalleryItemProps {
 	photo: Photo
-	onSelect: (photo: Photo) => void
+	onSelect: () => void
 }
 
 export default function PhotosGalleryItem({ photo, onSelect }: PhotosGalleryItemProps) {
@@ -19,7 +19,7 @@ export default function PhotosGalleryItem({ photo, onSelect }: PhotosGalleryItem
 					cursor: 'pointer',
 				}}
 			>
-				<img src={photo.src.original} alt={photo.alt} onClick={() => onSelect(photo)} />
+				<img src={photo.src.original} alt={photo.alt} onClick={onSelect} />
 			</div>
 		</GridItem>
 	)
