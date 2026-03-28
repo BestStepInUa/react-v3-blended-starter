@@ -10,7 +10,6 @@ interface FormProps {
 export default function Form({ onSubmit }: FormProps) {
 	const handleSubmit = (formData: FormData) => {
 		const query = formData.get('search') as string
-		console.log(query)
 
 		if (!query.trim()) {
 			toast.error('Please enter your search query.', { id: 'unique-toast' })
