@@ -1,5 +1,10 @@
-import style from "./Grid.module.css";
+import type { ReactNode } from 'react'
+import style from './Grid.module.css'
 
-export default function Grid({ children }) {
-  return <ul className={style.list}>{children}</ul>;
+interface GridProps {
+	children: ReactNode
+}
+
+export default function Grid({ children }: GridProps) {
+	return <ul className={style.list}>{children}</ul>
 }

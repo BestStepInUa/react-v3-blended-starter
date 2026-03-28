@@ -1,10 +1,11 @@
 import axios from 'axios'
+import type { Photo } from '../types/photo'
 
 const API_KEY = import.meta.env.VITE_API_KEY
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL.replace(/\/$/, '')
+const BASE_URL = import.meta.env.VITE_BASE_URL.replace(/\/$/, '')
 
 const api = axios.create({
-	baseURL: VITE_BASE_URL,
+	baseURL: BASE_URL,
 	params: {
 		orientation: 'landscape',
 	},
@@ -13,8 +14,8 @@ const api = axios.create({
 	},
 })
 
-export const getPhotos = async (query) => {
-	const response = await api.get(`search?query=${query}`)
+export const getPhotos = async (query: string): Promise<Photo[]> => {
+	const { data } = await api.get(`search?query=${query}`)
 
-	return response.data.photos
+	return data.photos
 }

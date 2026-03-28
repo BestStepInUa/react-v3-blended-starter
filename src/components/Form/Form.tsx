@@ -1,21 +1,37 @@
-import { FiSearch } from "react-icons/fi";
-import toast from "react-hot-toast";
+import { FiSearch } from 'react-icons/fi'
+import toast from 'react-hot-toast'
 
-import style from "./Form.module.css";
+import style from './Form.module.css'
 
-export default function Form() {
-  return (
-    <form className={style.form}>
-      <input
-        className={style.input}
-        placeholder="What do you want to write?"
-        name="search"
-        autoFocus
-      />
+interface FormProps {
+	onSubmit: (query: string) => void
+}
 
-      <button className={style.button} type="submit">
-        <FiSearch size="16px" />
-      </button>
-    </form>
-  );
+export default function Form({ onSubmit }: FormProps) {
+	const handleSubmit = (formData: FormData) => {
+		const query = formData.get('search') as string
+		console.log(query)
+
+		if (!query.trim()) {
+			toast.error('Please enter your search query.', { id: 'unique-toast' })
+			return
+		}
+
+		onSubmit(query)
+	}
+
+	return (
+		<form className={style.form} action={handleSubmit}>
+			<input
+				className={style.input}
+				placeholder='What do you want to write?'
+				name='search'
+				autoFocus
+			/>
+
+			<button className={style.button} type='submit'>
+				<FiSearch size='16px' />
+			</button>
+		</form>
+	)
 }
